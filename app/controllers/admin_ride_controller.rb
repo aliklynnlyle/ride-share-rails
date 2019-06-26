@@ -56,13 +56,54 @@ class AdminRideController < ApplicationController
       end
   
       def update
-        @ride = Ride.find(params[:id])
+
+        # @start_location = @ride.start_location
+        # @start_location.save
+        # @start_location.reload
   
-        if @ride.update(ride_params)
-           redirect_to admin_ride_path(@ride)
-        else
-          render 'edit'
-        end
+        # @end_location = @ride.end_location
+        # @end_location.save
+        # @end_location.reload
+
+        # @start_location.update()
+        # @end_location.update()
+
+  
+        # @ride = Ride.new(
+        #   organization_id: current_user.organization_id,
+        #   rider_id: ride_params[:rider_id], 
+        #   pick_up_time: ride_params[:pick_up_time],
+        #   start_location_id: @start_location.id,
+        #   end_location_id: @end_location.id,
+        #   reason: ride_params[:reason],
+        #   status: "requested")
+  
+        # if @ride.save
+        #   @ride.reload
+        #   redirect_to admin_ride_path(@ride)
+        # else
+        #   render 'new'
+        # end
+
+        # @ride = Ride.find(params[:id])
+  
+        # if @start_location.update(ride_params)
+        #   redirect_to admin_ride_path(@ride)
+        # else
+        #   render 'edit'
+        # end
+    
+        # if @end_location.update(ride_params)
+        #   redirect_to admin_ride_path(@ride)
+        # else
+        #   render 'edit'
+        # end
+
+        # if @ride.update(ride_params)
+        #    redirect_to admin_ride_path(@ride)
+        # else
+        #   render 'edit'
+        # end
       end
   
       def destroy
