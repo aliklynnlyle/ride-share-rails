@@ -13,57 +13,49 @@ class RidesController < ApplicationController
       @ride = Ride.find(params[:id])
       unless RidePolicy.new(current_rider, @ride).show?
           raise Pundit::NotAuthorizedError
-        end
+      end
       @start_location = Location.find(@ride.start_location_id)
       @end_location = Location.find(@ride.end_location_id)
     end
 
     def index
-      @rides = Ride.all
+      @rides = current_rider.rides
+      @rides = Kaminari.paginate_array(@rides).page(params[:page]).per(10)
     end
 
     def create
-      @token = current_rider.next_valid_token
-      unless @token.nil?
-        @start_location = Location.new(
+      token = current_rider.next_valid_token
+      unless token.nil?
+        start_location = Location.new(
           street: ride_params[:start_street],
           city: ride_params[:start_city],
           state: ride_params[:start_state],
           zip: ride_params[:start_zip])
 
-        if !@start_location.save
-            render 'new' and return
-        end
-
-        @end_location = Location.new(
+        end_location = Location.new(
           street: ride_params[:end_street],
           city: ride_params[:end_city],
           state: ride_params[:end_state],
           zip: ride_params[:end_zip])
 
-          if !@end_location.save
-            render 'new' and return
-          end
-
-        @ride = Ride.new(
+        @ride = current_rider.rides.new(
           organization_id: current_rider.organization.id,
-          rider_id: current_rider.id,
           pick_up_time: ride_params[:pick_up_time],
-          start_location_id: @start_location.id,
-          end_location_id: @end_location.id,
-          reason: ride_params[:reason],
-          status: "requested")
+          start_location: start_location,
+          end_location: end_location,
+          reason: ride_params[:reason])
+        @ride.status = "approved" if current_rider.organization.use_tokens?
+
         if @ride.save
-          @token.ride_id = @ride.id
-          @token.save
-          flash[:notice] = "Ride created"
+          token.ride_id = @ride.id
+          token.save
+          flash[:notice] = "Ride created."
           redirect_to @ride
         else
           render 'new'
         end
       else
-        flash[:notice] = "Sorry, you do not have enough valid tokens to request this ride"
-
+        flash[:notice] = "You do not have enough valid tokens to request this ride"
         redirect_to rides_path
       end
     end

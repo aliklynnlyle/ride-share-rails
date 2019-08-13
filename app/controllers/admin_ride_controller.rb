@@ -17,6 +17,7 @@ class AdminRideController < ApplicationController
 
   def index
     @rides = current_user.organization.rides
+    @rides = Kaminari.paginate_array(@rides).page(params[:page]).per(10)
   end
 
   def edit
@@ -44,7 +45,7 @@ class AdminRideController < ApplicationController
                             start_location: start_location,
                             end_location: end_location,
                             reason: ride_params[:reason])
-    @ride.update_attribute(:status, 'approved') if current_user.organization.use_tokens?
+    @ride.status = "approved" if current_user.organization.use_tokens?
 
     if @ride.save
       token.ride_id = @ride.id

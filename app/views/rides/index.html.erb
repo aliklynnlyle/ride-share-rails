@@ -1,39 +1,33 @@
 <div class="container">
 
 
-<h4>LISTING RIDES</h4>
+<h1>Rides</h1>
+<%= paginate @rides %>
 
-<%= link_to 'New Ride', new_ride_path, class:"btn btn-primary" %>
 <table class="table table-striped">
   <tr class="border-bot">
-    <th scope="col">Ride ID</th>
-    <th scope="col">Rider ID</th>
-    <th scope="col">Driver ID</th>
+    <th scope="col">Rider</th>
+    <th scope="col">Driver</th>
     <th scope="col">Pick Up Time</th>
     <th scope="col">Reason</th>
     <th scope="col">Status</th>
-    <th scope="col"></th>
   </tr>
 
   <% @rides.each do |ride| %>
     <% if ride.rider==current_rider%>
     <tr>
-      <td scope="row"><%= ride.id %></td>
-      <td><%= ride.rider_id %></td>
-      <td><%= ride.driver_id %></td>
-      <td><%= ride.pick_up_time %></td>
+      <td scope="row"><%= ride.rider.full_name %></td>
+      <td><%= ride.driver&.full_name %></td>
+      <td><%= ride.pick_up_time.strftime("%b %d, %Y %I:%M %p") %></td>
       <td><%= ride.reason %></td>
       <td><%= ride.status %></td>
-      <td><%= link_to 'Show', ride_path(ride) %></td>
-      <td><%= link_to 'Edit', edit_ride_path(ride) %></td>
-      <td><%= link_to 'Delete', ride_path(ride),
-                      method: :delete,
-                      data: { confirm: 'Are you sure?' } %></td>
     </tr>
     <% end %>
   <% end %>
 </table>
 
-<%= link_to 'Back', welcome_index_path, class:"btn btn-danger" %>
+<%= paginate @rides %>
+<%= link_to 'Back', welcome_index_path %> |
+<%= link_to 'New Ride', new_ride_path %>
 
 </div>

@@ -1,9 +1,8 @@
 <div class="container">
 
 
-<h4>LISTING RIDES</h4>
-
-<%= link_to 'New Ride', new_admin_ride_path, class:"btn btn-primary" %>
+<h1>Rides</h1>
+<%= paginate @rides %>
 <table class="table table-striped">
   <tr class="border-bot">
     <th scope="col">Rider</th>
@@ -19,9 +18,9 @@
   <% @rides.each do |ride| %>
     <% if ride.organization_id==current_user.organization_id%>
     <tr>
-      <td><%= ride.rider.full_name unless ride.rider.nil?%></td>
-      <td><%= ride.driver.full_name unless ride.driver.nil?%></td>
-      <td><%= ride.pick_up_time %></td>
+      <td><%= ride.rider&.full_name %></td>
+      <td><%= ride.driver&.full_name %></td>
+      <td><%= ride.pick_up_time.strftime("%b %d, %Y %I:%M %p")  %></td>
       <td><%= ride.reason %></td>
       <td><%= ride.status %></td>
       <td><%= link_to 'Edit', edit_admin_ride_path(ride) %></td>
@@ -40,7 +39,9 @@
   <% end %>
 </table>
 
-<%= link_to 'Back', welcome_index_path, class:"btn btn-danger" %>
+<%= paginate @rides %>
+<%= link_to 'Back', welcome_index_path %> |
+<%= link_to 'New Ride', new_admin_ride_path %>
 
 </div>
 
