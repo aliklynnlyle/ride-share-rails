@@ -3,8 +3,8 @@ class Rider < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :organization
-  has_many   :tokens, dependent: :destroy
-  has_many   :rides
+  has_many :tokens
+  has_many :rides
 
   validates :first_name, :last_name, :phone, :organization, presence: true
   # validates :email, presence: true
