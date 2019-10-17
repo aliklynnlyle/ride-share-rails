@@ -1,0 +1,36 @@
+<div class="ml-5">
+  <div class="row">
+    <div class="col-md border-top border-bottom">
+      <strong>Name:</strong>
+      <%= @rider.full_name %>
+    </div>
+
+    <div class="col-md border-top border-bottom">
+      <strong>Email:</strong>
+      <%= @rider.email %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md border-top border-bottom">
+      <strong>Phone:</strong>
+      <%= number_to_phone(@rider.phone) %>
+    </div>
+    <div class="col-md border-top border-bottom">
+      <strong>Valid tokens:</strong>
+      <%= @rider.valid_tokens_count %>
+      <%= link_to edit_rider_path(@rider), class: "btn btn-sm btn-outline-success", id: "my-button" do %>
+        <i class="fa fa-tasks"> Manage</i>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md border-top border-bottom">
+      <strong>Organization:</strong>
+      <%= @rider.organization.name %>
+    </div>
+    <div class="col-md border-top border-bottom">
+      <strong>Active:</strong>
+      <%= driver_active_inactive(@rider.is_active) %>
+    </div>
+  </div>
+</div>

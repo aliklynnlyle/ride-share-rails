@@ -5,7 +5,7 @@ RSpec.feature "Users::UserPasswordResets", type: :feature do
 
   scenario "user receives a password reset link if a valid email is provided" do
     visit root_path
-    expect(page).to have_text "FRUBER"
+    expect(page).to have_text "Rideshare"
     click_link 'admin-login'
     expect(page).to have_text "Log in"
     click_link "Forgot your password?"

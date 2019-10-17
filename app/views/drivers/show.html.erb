@@ -1,14 +1,14 @@
-<div class="container">
+<div class="container" style="margin-top: 20px;">
   <div class="card3">
     <h3 class="bg-primary rounded pl-2 headings">
-      <i class="fa fa-address-card">Driver Information</i>
+      <i class="fa fa-address-card"> Driver Information</i>
       <% if @driver.is_active %>
         <%= link_to driver_activation_path(@driver), class: "btn btn-sm btn-danger", id: "driver-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
-          <i class="fa fa-power-off">Deactivate</i>
+          <i class="fa fa-power-off"> Deactivate</i>
         <% end %>
       <% else %>
         <%= link_to driver_activation_path(@driver), class: "btn btn-sm btn-success", id: "driver-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
-          <i class="fa fa-power-off">Reactivate</i>
+          <i class="fa fa-power-off"> Reactivate</i>
         <% end %>
       <% end %>
     </h3>
@@ -16,18 +16,18 @@
   </div>
 
   <div class="card3">
-    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-car">Cars</i></h3>
+    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-car"> Cars</i></h3>
     <%= render 'cars' %>
   </div>
 
   <div class="card3">
-    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-calendar">Agenda</i></h3>
+    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-calendar"> Agenda</i></h3>
     <%= render 'agenda' %>
   </div>
 
   <div class="card3">
-    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-map-marker">Locations</i></h3>
+    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-map-marker"> Locations</i></h3>
     <%= render 'locations' %>
   </div>
-  <%= link_to 'Back', drivers_path, class: "btn btn-sm btn-outline-primary my-2 my-sm-0" %>
+  <%= link_to 'Back', drivers_path, class: "btn btn-primary" %>
 </div>

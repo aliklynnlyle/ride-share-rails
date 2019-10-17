@@ -1,118 +1,40 @@
-<div class="container" style="margin-top: 35px;">
-  <div class="personal-info">
-    <h4 class="green">Personal Information</h4>
-    <% if @rider.is_active %>
-      <%= link_to rider_activation_path(@rider), class: "btn btn-sm btn-danger", id: "rider-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
-        <i class="fa fa-power-off">Deactivate</i>
-      <% end %>
-    <% else %>
-      <%= link_to rider_activation_path(@rider), class: "btn btn-sm btn-success", id: "rider-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
-        <i class="fa fa-power-off">Reactivate</i>
-      <% end %>
-    <% end %>
-  </div>
-  <div class="card5 mb-3">
-    <div class="row no-gutters">
-      <div class="col-md col-md-offset-2">
-        <p><strong>Name:</strong> <%= @rider.full_name %></p>
-        <p><strong>Phone:</strong> <%= @rider.phone %></p>
-        <p><strong>Email:</strong> <%= @rider.email %></p>
-        <p><strong>Valid Tokens:</strong> <%= @rider.valid_tokens_count %></p>
-        <p><strong>Organization:</strong> <%= @rider.organization.name %></p>
-      </div>
-    </div>
-  </div><br/>
-
-  <h4 class="green"><%= @rider.full_name %>'s Rides</h4>
-  <div class="card5 mb-3">
-    <div class="row no-gutters">
-      <div class="col-md col-md-offset-2">
-        <table class="table table-striped">
-          <tr class="border-bot">
-            <th scope="col">Pick Up Time</th>
-            <th scope="col">Driver</th>
-            <th scope="col">Reason</th>
-            <th scope="col">
-              <a id="status" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Status
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <%= link_to 'Pending', rider_path(status: "pending") %>
-                <%= link_to 'Approved', rider_path(status: "approved") %>
-                <%= link_to 'Canceled', rider_path(status: "canceled") %>
-                <%= link_to 'Scheduled', rider_path(status: "scheduled") %>
-                <%= link_to 'Picking Up', rider_path(status: "picking-up") %>
-                <%= link_to 'Dropping Off', rider_path(status: "dropping-off") %>
-                <%= link_to 'Completed', rider_path(status: "completed") %>
-              </div>
-            </th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-          <% if @rider_rides.blank? %>
-            <tr>
-              <td></td>
-              <td></td>
-              <td><p>No rides have been requested yet!</p></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          <% else %>
-            <% @rider_rides.each do |ride| %>
-              <% if ride.organization_id==current_user.organization_id%>
-                <tr>
-                  <td class="no-wrap"><%= ride.pick_up_time.strftime("%b %d, %Y %I:%M %p")  %></td>
-                  <td class="no-wrap"><%= ride.driver&.full_name %></td>
-                  <td><%= ride.reason %></td>
-                  <td><%= ride.status %></td>
-                  <td></td>
-                  <td class="my-buttons">
-                    <% if ride.status == 'pending' %>
-                      <%= link_to edit_admin_ride_path(ride), class: "btn btn-sm btn-success" do %>
-                        <i class="fa fa-pencil-square-o">Edit</i>
-                      <% end %>
-
-                      <%= link_to cancel_admin_ride_path(ride), class: "btn btn-sm btn-warning", method: :put do %>
-                        <i class="fa fa-ban">Cancel</i>
-                      <% end %>
-
-                      <%= link_to approve_admin_ride_path(ride), class: "btn btn-sm btn-info", method: :put do %>
-                        <i class="fa fa-thumbs-up">Approve</i>
-                      <% end %>
-                    <% elsif ['approved', 'scheduled'].include? ride.status %>
-                      <%= link_to edit_admin_ride_path(ride), class: "btn btn-sm btn-success" do %>
-                        <i class="fa fa-pencil-square-o">Edit</i>
-                      <% end %>
-
-                      <%= link_to cancel_admin_ride_path(ride), class: "btn btn-sm btn-warning", method: :put do %>
-                        <i class="fa fa-ban">Cancel</i>
-                      <% end %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            <% end %>
-          <% end %>
-        </table>
-        <%= paginate @rider_rides %>
-      </div>
-    </div>
-  </div>
-
-  <h4 class="green">Locations</h4>
-  <div class="card5 mb-3">
-    <div class="row no-gutters">
-      <div class="col-md col-md-offset-2">
-        <% @locations.each do |location| %>
-          <p><%= location.full_address %></p>
+<div class="container" style="margin-top: 20px;">
+  <div class="card3">
+    <h3 class="bg-primary rounded pl-2 headings">
+      <i class="fa fa-address-card"> Rider Information</i>
+      <% if @rider.is_active %>
+        <%= link_to rider_activation_path(@rider), class: "btn btn-sm btn-danger", id: "rider-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
+          <i class="fa fa-power-off"> Deactivate</i>
         <% end %>
-      </div>
+      <% else %>
+        <%= link_to rider_activation_path(@rider), class: "btn btn-sm btn-success", id: "rider-activation", method: :put, data: { confirm: 'Are you sure?' } do %>
+          <i class="fa fa-power-off"> Reactivate</i>
+        <% end %>
+      <% end %>
+    </h3>
+    <%= render 'rider_info' %><br/>
+  </div>
+
+  <div class="card3">
+    <h3 class="bg-primary rounded pl-2 headings">
+      <i class="fa fa-taxi"> Rides</i>
+    </h3>
+    <%= render 'rider_rides' %><br/>
+
+  </div>
+
+  <div class="card3">
+    <h3 class="bg-primary rounded pl-2 headings"><i class="fa fa-map-marker"> Locations</i></h3>
+    <div class="col-md col-md-offset-2">
+
+      <% @locations.each do |location| %>
+        <p><%= location.full_address %></p>
+      <% end %>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <%= link_to 'Edit', edit_rider_path(@rider), class: "btn btn-outline-primary" %>
-  <%= link_to 'Back', riders_path, class: "btn btn-outline-success" %>
+  <%= link_to 'Back', riders_path, class: "btn btn-primary" %>
+  <%= link_to 'Edit', edit_rider_path(@rider), class: "btn btn-success" %>
 </div>

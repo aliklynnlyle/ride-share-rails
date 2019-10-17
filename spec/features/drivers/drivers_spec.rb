@@ -22,7 +22,7 @@ RSpec.feature 'Drivers', type: :feature, js: true do
     click_link 'Login as Admin'
     expect(page).to have_text 'Log in'
     signin('user@example.com', 'password')
-    expect(page).to have_text 'Welcome Admins!'
+    expect(page).to have_text 'Welcome user@example.com!'
   end
 
   scenario 'attempt to login as admin with incorrect password' do
@@ -40,7 +40,7 @@ RSpec.feature 'Drivers', type: :feature, js: true do
     fill_in 'Email', with: admin.email
     fill_in 'Password', with: 'password'
     click_on 'Log in'
-    expect(page).to have_text 'Welcome Admins!'
+    expect(page).to have_text "Welcome #{admin.email}!"
     click_link 'Drivers'
     expect(page).to have_text driver.first_name
     expect(page).not_to have_text driver_outside_organization.first_name
@@ -51,7 +51,7 @@ RSpec.feature 'Drivers', type: :feature, js: true do
     click_link 'Login as Admin'
     expect(page).to have_text 'Log in'
     signin('user@example.com', 'password')
-    expect(page).to have_text 'Welcome Admins!'
+    expect(page).to have_text 'Welcome user@example.com!'
     click_link 'Drivers'
     click_link 'Review'
     expect(page).to have_text 'Driver Information'

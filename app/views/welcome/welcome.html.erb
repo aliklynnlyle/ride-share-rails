@@ -1,9 +1,9 @@
-<div class="container">
-  <h1>FRUBER</h1>
+<div class="container" id="welcome">
+  <h1 class="app-name">Rideshare</h1>
 
   <div class="login-menu">
-      <%= link_to "Login as Admin", new_user_session_path, :class => 'btn btn-danger', id: "admin-login" %>
-      <%= link_to "Login as Rider", new_rider_session_path, :class => 'btn btn-danger', id: "rider-login" %>
+      <%= link_to "Login as Admin", new_user_session_path, :class => 'btn btn-sm btn-success', id: "admin-login" %>
+      <%= link_to "Login as Rider", new_rider_session_path, :class => 'btn btn-sm btn-success', id: "rider-login" %>
   </div>
 
 </div>

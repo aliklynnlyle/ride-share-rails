@@ -9,7 +9,7 @@ FactoryBot.define do
   end
 
   # We may not need the following. I may implement the faker gem instead.
-
+  # #
   # factory :rider2, class: Rider do
   #   first_name {"Lyfted"}
   #   last_name {"Rider"}
